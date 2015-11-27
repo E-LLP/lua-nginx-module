@@ -20,7 +20,7 @@ int ngx_http_lua_ffi_balancer_set_current_peer(ngx_http_request_t *r,
 int ngx_http_lua_ffi_balancer_set_more_tries(ngx_http_request_t *r,
     int count, char **err);
 
-unsigned ngx_http_lua_ffi_balancer_get_last_failure(ngx_http_request_t *r,
+int ngx_http_lua_ffi_balancer_get_last_failure(ngx_http_request_t *r,
     int *status, char **err);
 ]]
 
@@ -90,7 +90,7 @@ function _M.get_last_failure()
     end
 
     if state == FFI_ERROR then
-        return nil, ffi_str(errmsg[0])
+        return nil, nil, ffi_str(errmsg[0])
     end
 
     return peer_state_names[state] or "unknown", int_out[0]

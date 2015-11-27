@@ -453,7 +453,6 @@ typedef struct ngx_http_lua_ctx_s {
     unsigned         entered_rewrite_phase:1;
     unsigned         entered_access_phase:1;
     unsigned         entered_content_phase:1;
-    unsigned         entered_balancer_phase:1;
 
     unsigned         buffering:1; /* HTTP 1.0 response body buffering flag */
 

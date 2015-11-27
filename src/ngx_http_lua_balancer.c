@@ -335,7 +335,6 @@ ngx_http_lua_balancer_by_chunk(lua_State *L, ngx_http_request_t *r)
     }
 
     ctx->context = NGX_HTTP_LUA_CONTEXT_BALANCER;
-    ctx->entered_balancer_phase = 1;
 
     /* init nginx context in Lua VM */
     ngx_http_lua_set_req(L, r);
@@ -431,8 +430,13 @@ ngx_http_lua_ffi_balancer_set_current_peer(ngx_http_request_t *r,
     }
 
     ctx = ngx_http_get_module_ctx(r, ngx_http_lua_module);
-    if (ctx == NULL || !ctx->entered_balancer_phase) {
-        *err = "bad lua ctx";
+    if (ctx == NULL) {
+        *err = "no ctx found";
+        return NGX_ERROR;
+    }
+
+    if ((ctx->context & NGX_HTTP_LUA_CONTEXT_BALANCER) == 0) {
+        *err = "API disabled in the current context";
         return NGX_ERROR;
     }
 
@@ -510,8 +514,13 @@ ngx_http_lua_ffi_balancer_set_more_tries(ngx_http_request_t *r,
     }
 
     ctx = ngx_http_get_module_ctx(r, ngx_http_lua_module);
-    if (ctx == NULL || !ctx->entered_balancer_phase) {
-        *err = "bad lua ctx";
+    if (ctx == NULL) {
+        *err = "no ctx found";
+        return NGX_ERROR;
+    }
+
+    if ((ctx->context & NGX_HTTP_LUA_CONTEXT_BALANCER) == 0) {
+        *err = "API disabled in the current context";
         return NGX_ERROR;
     }
 
@@ -562,8 +571,13 @@ ngx_http_lua_ffi_balancer_get_last_failure(ngx_http_request_t *r,
     }
 
     ctx = ngx_http_get_module_ctx(r, ngx_http_lua_module);
-    if (ctx == NULL || !ctx->entered_balancer_phase) {
-        *err = "bad lua ctx";
+    if (ctx == NULL) {
+        *err = "no ctx found";
+        return NGX_ERROR;
+    }
+
+    if ((ctx->context & NGX_HTTP_LUA_CONTEXT_BALANCER) == 0) {
+        *err = "API disabled in the current context";
         return NGX_ERROR;
     }
 
