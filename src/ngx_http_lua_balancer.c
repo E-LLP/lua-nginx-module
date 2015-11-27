@@ -370,7 +370,7 @@ ngx_http_lua_balancer_by_chunk(lua_State *L, ngx_http_request_t *r)
         }
 
         ngx_log_error(NGX_LOG_ERR, r->connection->log, 0,
-                      "failed to run session_store_by_lua*: %*s", len, err_msg);
+                      "failed to run balancer_by_lua*: %*s", len, err_msg);
 
         lua_settop(L, 0); /*  clear remaining elems on stack */
         ngx_http_lua_finalize_request(r, rc);
