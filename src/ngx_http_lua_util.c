@@ -49,6 +49,7 @@
 #include "ngx_http_lua_config.h"
 #include "ngx_http_lua_worker.h"
 #include "ngx_http_lua_socket_tcp.h"
+#include "ngx_http_lua_resolve.h"
 
 
 #if 1
@@ -753,6 +754,7 @@ ngx_http_lua_inject_ngx_api(lua_State *L, ngx_http_lua_main_conf_t *lmcf,
     ngx_http_lua_inject_timer_api(L);
     ngx_http_lua_inject_config_api(L);
     ngx_http_lua_inject_worker_api(L);
+    ngx_http_lua_inject_resolve_api(L);
 
     ngx_http_lua_inject_misc_api(L);
 
